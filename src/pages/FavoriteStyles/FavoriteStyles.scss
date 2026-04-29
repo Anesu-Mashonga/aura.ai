@@ -1,0 +1,81 @@
+@use '../../styles/variables' as *;
+
+.favorites {
+    &__hero-stats {
+        justify-content: flex-end;
+    }
+
+    &__filters-panel {
+        .MuiCardContent-root {
+            padding: 14px 16px;
+        }
+    }
+
+    &__filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    &__card {
+        height: 100%;
+    }
+
+    &__card-skeleton {
+        height: 180px;
+    }
+
+    &__meta-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    &__preview-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0;
+    }
+
+    &__detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+    }
+
+    &__detail-item {
+        border: 1px solid var(--border-soft);
+        border-radius: 18px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.46);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    &__detail-image {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.75);
+        border-radius: 14px;
+    }
+
+    @include tablet {
+        &__hero-stats {
+            justify-content: flex-start;
+        }
+    }
+
+    @include mobile {
+        &__filters {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+    }
+}

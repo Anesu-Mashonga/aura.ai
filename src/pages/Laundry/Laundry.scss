@@ -1,0 +1,101 @@
+@use '../../styles/variables' as *;
+
+.laundry {
+    &__controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+
+    &__chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+    }
+
+    &__bulk-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin-top: 16px;
+    }
+
+    &__filters-panel {
+        .MuiCardContent-root {
+            padding: 18px 20px;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__item {
+        &--urgent {
+            border-left: 3px solid #d64545 !important;
+        }
+    }
+
+    &__item-inner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+
+        @include mobile {
+            flex-wrap: wrap;
+        }
+    }
+
+    &__item-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__item-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    &__empty {
+        text-align: center;
+        padding: 60px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 28px;
+    }
+
+    &__status-card {
+        background: linear-gradient(135deg, rgba(231, 111, 81, 0.08), rgba(42, 157, 143, 0.08)) !important;
+    }
+
+    @include mobile {
+        &__filters-panel {
+            .MuiCardContent-root {
+                padding: 16px;
+            }
+        }
+
+        &__controls,
+        &__bulk-actions {
+            align-items: stretch;
+
+            >* {
+                flex: 1 1 100%;
+            }
+        }
+
+        &__item-actions {
+            width: 100%;
+            justify-content: flex-end;
+        }
+    }
+}

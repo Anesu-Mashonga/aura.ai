@@ -1,0 +1,49 @@
+// Global SCSS variables and mixins
+$primary: #e76f51;
+$primary-light: #f4a261;
+$secondary: #2a9d8f;
+$accent: #152033;
+$bg-light: #f7f2ea;
+$bg-dark: #0e1726;
+$paper-dark: #142033;
+$radius: 24px;
+$radius-sm: 18px;
+$radius-pill: 999px;
+$shadow-sm: 0 12px 30px rgba(21, 32, 51, 0.08);
+$shadow-lg: 0 24px 60px rgba(21, 32, 51, 0.12);
+
+// Breakpoints
+$bp-sm: 600px;
+$bp-md: 960px;
+$bp-lg: 1280px;
+
+// Spacing helpers
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin mobile {
+    @media (max-width: #{$bp-sm}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: #{$bp-md}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: #{$bp-lg}) {
+        @content;
+    }
+}

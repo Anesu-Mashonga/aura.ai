@@ -1,0 +1,47 @@
+@use '../../styles/variables' as *;
+
+.explore {
+    &__chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+
+    &__suggestion-card {
+        height: 100%;
+    }
+
+    &__mini-card {
+        transition: border-color 0.15s ease, transform 0.1s ease;
+
+        &:hover {
+            transform: translateX(3px);
+        }
+
+        &--active {
+            border-color: $primary !important;
+            background: rgba(231, 111, 81, 0.1) !important;
+        }
+    }
+
+    @include tablet {
+        &__chips {
+            justify-content: flex-start;
+        }
+    }
+
+    @include mobile {
+        &__chips {
+            width: 100%;
+            gap: 10px;
+        }
+
+        &__suggestion-card,
+        &__mini-card {
+            .MuiCardContent-root {
+                padding: 16px;
+            }
+        }
+    }
+}

@@ -1,0 +1,85 @@
+@use '../../styles/variables' as *;
+
+.wardrobe {
+    &__hero-actions {
+        justify-content: flex-end;
+    }
+
+    &__controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__controls-panel {
+        .MuiCardContent-root {
+            padding: 18px 20px;
+        }
+    }
+
+    &__filters {
+        flex-wrap: wrap;
+    }
+
+    &__item-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: $shadow-lg;
+        }
+    }
+
+    &__type-badge {
+        font-size: 11px !important;
+        text-transform: capitalize;
+        background: rgba(21, 32, 51, 0.72) !important;
+        color: white !important;
+        backdrop-filter: blur(12px);
+    }
+
+    &__empty {
+        text-align: center;
+        padding: 60px 20px;
+        border-radius: 28px;
+    }
+
+    @include tablet {
+        &__hero-actions {
+            justify-content: flex-start;
+        }
+
+        &__controls {
+            align-items: stretch;
+        }
+    }
+
+    @include mobile {
+        &__controls-panel {
+            .MuiCardContent-root {
+                padding: 16px;
+            }
+        }
+
+        &__controls {
+            gap: 10px;
+
+            >* {
+                flex: 1 1 100%;
+            }
+        }
+
+        &__filters {
+            width: 100%;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+    }
+}

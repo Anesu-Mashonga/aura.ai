@@ -1,0 +1,92 @@
+@use '../../styles/variables' as *;
+
+.auth-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(280px, 1.05fr) minmax(340px, 480px);
+    gap: 24px;
+    align-items: center;
+    padding: 32px;
+    background:
+        radial-gradient(circle at top left, rgba(231, 111, 81, 0.2), transparent 30%),
+        radial-gradient(circle at 82% 18%, rgba(42, 157, 143, 0.14), transparent 28%),
+        linear-gradient(180deg, rgba(255, 251, 245, 0.98) 0%, rgba(247, 242, 234, 1) 100%);
+
+    &__panel {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        max-width: 620px;
+        padding: clamp(28px, 5vw, 48px);
+        border-radius: 32px;
+        border: 1px solid var(--border-soft);
+        background: rgba(255, 255, 255, 0.42);
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow-panel);
+    }
+
+    &__title {
+        font-size: clamp(2.4rem, 6vw, 4.6rem) !important;
+        line-height: 0.95;
+    }
+
+    &__copy {
+        max-width: 46ch;
+        color: var(--text-muted);
+        font-size: 1.02rem;
+    }
+
+    &__features {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    &__feature {
+        padding: 16px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid var(--border-soft);
+    }
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 480px;
+    margin-left: auto;
+    border-radius: 32px !important;
+}
+
+html[data-theme='dark'] {
+    .auth-page {
+        background:
+            radial-gradient(circle at top left, rgba(231, 111, 81, 0.18), transparent 28%),
+            radial-gradient(circle at 82% 18%, rgba(42, 157, 143, 0.14), transparent 24%),
+            linear-gradient(180deg, rgba(14, 23, 38, 0.98) 0%, rgba(9, 17, 30, 1) 100%);
+
+        &__panel,
+        &__feature {
+            background: rgba(20, 32, 51, 0.52);
+            border-color: rgba(255, 246, 233, 0.08);
+        }
+    }
+}
+
+@media (max-width: #{$bp-md}) {
+    .auth-page {
+        grid-template-columns: 1fr;
+        padding: 20px 16px 28px;
+
+        &__panel {
+            max-width: none;
+        }
+
+        &__features {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .auth-card {
+        max-width: none;
+    }
+}
