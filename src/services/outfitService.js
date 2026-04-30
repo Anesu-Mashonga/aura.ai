@@ -75,7 +75,7 @@ export const outfitService = {
   async generateOutfit({ weather, occasion, wardrobe, excludeItemIds = [], variationIndex = 0 }) {
     await delay(500)
     if (!wardrobe || wardrobe.length === 0) {
-      return ok({ items: [], reason: 'Add some items to your wardrobe to get outfit suggestions!', meta: { mainItemsCount: 0, accessoryCount: 0 } })
+      return ok({ items: [], reason: 'Add some items to your wardrobe to get outfit suggestions!', meta: { mainItemsCount: 0, accessoryCount: 0 }, vtoImage: null })
     }
 
     const cleanWardrobe = wardrobe
@@ -87,6 +87,7 @@ export const outfitService = {
         items: [],
         reason: 'No clean outfit is available right now. Mark items clean in Laundry or add more pieces to your wardrobe.',
         meta: { mainItemsCount: 0, accessoryCount: 0, cleanItemCount: 0, variationIndex },
+        vtoImage: null,
       })
     }
 
@@ -106,6 +107,7 @@ export const outfitService = {
         items: [],
         reason: 'Not enough clean core pieces are available for this look. Mark items clean in Laundry to expand today\'s options.',
         meta: { mainItemsCount: 0, accessoryCount: accessories.length, cleanItemCount: cleanWardrobe.length, variationIndex },
+        vtoImage: null,
       })
     }
 
@@ -124,6 +126,7 @@ export const outfitService = {
       items: selected,
       reason,
       accepted: false,
+      vtoImage: null,
       meta: {
         mainItemsCount,
         accessoryCount: accessories.length,
