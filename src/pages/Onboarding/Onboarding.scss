@@ -1,0 +1,55 @@
+@use '../../styles/variables' as *;
+
+.onboarding {
+    min-height: 100vh;
+    justify-content: center;
+
+    &__frame {
+        max-width: 1080px;
+        margin: 0 auto;
+        border-radius: 28px;
+        overflow: hidden;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__title {
+        font-family: 'Space Grotesk', 'Manrope', sans-serif !important;
+        font-size: clamp(1.9rem, 5vw, 2.8rem) !important;
+        line-height: 1.02;
+    }
+
+    &__checks {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    &__trend-card {
+        height: 100%;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 24px 20px;
+        border-top: 1px solid rgba(21, 32, 51, 0.08);
+
+        @include mobile {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding: 0 16px 16px;
+
+            >div {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    }
+}

@@ -75,9 +75,16 @@ export default function DashboardPage() {
   useEffect(() => {
     if (items.length > 0 && weather) {
       setVariationIndex(0);
-      generate({ weather, occasion, wardrobe: items, variationIndex: 0 });
+      generate({
+        weather,
+        occasion,
+        wardrobe: items,
+        userProfile: user?.physicalProfile,
+        styleTaste: user?.styleTaste,
+        variationIndex: 0,
+      });
     }
-  }, [items, weather, occasion, generate]);
+  }, [items, weather, occasion, generate, user]);
 
   const handleAccept = async () => {
     const res = await accept();
@@ -145,6 +152,8 @@ export default function DashboardPage() {
       weather,
       occasion,
       wardrobe: items,
+      userProfile: user?.physicalProfile,
+      styleTaste: user?.styleTaste,
       variationIndex: nextVariation,
       excludeItemIds: outfit?.items?.map((item) => item.id) || [],
     });

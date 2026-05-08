@@ -5,6 +5,10 @@ import {
   PRODUCT_IMAGE_BY_ID,
   WARDROBE_IMAGE_BY_NAME,
 } from './localImages'
+import {
+  getDefaultPhysicalProfile,
+  getDefaultStyleTaste,
+} from './styleProfileData'
 
 export const DEMO_USER = {
   id: 'user-demo-001',
@@ -13,6 +17,17 @@ export const DEMO_USER = {
   password: 'demo1234',
   createdAt: '2024-01-15T10:00:00.000Z',
   preferences: { darkMode: false, defaultOccasion: 'Casual', temperatureUnit: 'C' },
+  physicalProfile: {
+    ...getDefaultPhysicalProfile(),
+    heightCm: 172,
+    weightKg: 70,
+    fitPreference: 'regular',
+  },
+  styleTaste: {
+    ...getDefaultStyleTaste(),
+    likedTrendIds: ['smart-casual-core', 'quiet-luxury'],
+    lastUpdated: '2026-04-20T09:00:00.000Z',
+  },
   avatar: LOCAL_AVATARS.demo,
 }
 

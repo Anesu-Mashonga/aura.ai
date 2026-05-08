@@ -12,6 +12,7 @@ import LaundryPage from "./pages/Laundry/LaundryPage";
 import FavoriteStylesPage from "./pages/FavoriteStyles/FavoriteStylesPage";
 import HistoryPage from "./pages/History/HistoryPage";
 import SettingsPage from "./pages/Settings/SettingsPage";
+import OnboardingPage from "./pages/Onboarding/OnboardingPage";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import { useEffect } from "react";
 import { wardrobeService } from "./services/wardrobeService";
@@ -37,6 +38,14 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route
+                path="/onboarding"
+                element={
+                  <ProtectedRoute>
+                    <OnboardingPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/"
                 element={

@@ -18,6 +18,7 @@ import { CheckroomOutlined } from "@mui/icons-material";
 import { useWardrobe } from "../../hooks/useWardrobe";
 import { useWeather } from "../../hooks/useWeather";
 import { outfitService } from "../../services/outfitService";
+import { useAuth } from "../../contexts/AuthContext";
 import "./Explore.scss";
 
 const OCCASIONS = ["Work", "Casual", "Party", "Date", "Sport"];
@@ -31,6 +32,7 @@ const TYPE_ICON = {
 };
 
 export default function ExplorePage() {
+  const { user } = useAuth();
   const { items } = useWardrobe();
   const { weather } = useWeather();
   const [selected, setSelected] = useState("Casual");
@@ -48,6 +50,8 @@ export default function ExplorePage() {
             weather,
             occasion: occ,
             wardrobe: items,
+            userProfile: user?.physicalProfile,
+            styleTaste: user?.styleTaste,
           });
           if (res.success) results[occ] = res.data;
         }),
@@ -56,7 +60,7 @@ export default function ExplorePage() {
       setLoading(false);
     };
     fetchAll();
-  }, [items, weather]);
+  }, [items, weather, user]);
 
   const current = suggestions[selected];
 

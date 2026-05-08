@@ -42,9 +42,30 @@ export function AuthProvider({ children }) {
     return res;
   }, []);
 
+  const updatePhysicalProfile = useCallback(async (profilePayload) => {
+    const res = await authService.updateUserPhysicalProfile(profilePayload);
+    if (res.success) setUser(res.data);
+    return res;
+  }, []);
+
+  const updateStyleTaste = useCallback(async (stylePayload) => {
+    const res = await authService.updateUserStyleTaste(stylePayload);
+    if (res.success) setUser(res.data);
+    return res;
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, signup, logout, updatePreferences }}
+      value={{
+        user,
+        loading,
+        login,
+        signup,
+        logout,
+        updatePreferences,
+        updatePhysicalProfile,
+        updateStyleTaste,
+      }}
     >
       {children}
     </AuthContext.Provider>

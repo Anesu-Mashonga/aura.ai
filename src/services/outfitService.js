@@ -1,11 +1,14 @@
 import { v4 as uuidv4 } from 'uuid'
 import { delay, ok, safeParse, safeSet } from './utils'
 import { getLaundryStatus } from './laundryService'
+import { STYLE_TRENDS } from '../data/styleProfileData'
 
 const OUTFIT_HISTORY_KEY = 'alclo_outfit_history'
 const FAVORITE_STYLES_KEY = 'alclo_favorite_styles'
 const WARDROBE_KEY = 'alclo_wardrobe'
 const VARIATION_WINDOW = 4
+
+const TREND_BY_ID = Object.fromEntries(STYLE_TRENDS.map((trend) => [trend.id, trend]))
 
 const OCCASION_WEIGHTS = {
   Work: { top: ['shirt', 'polo', 'blouse'], bottom: ['chinos', 'trousers', 'slacks'], outer: ['blazer', 'jacket'], shoes: ['boots', 'loafers', 'oxfords'] },
@@ -43,6 +46,56 @@ function scoreItem(item, occasion, weather) {
   return score
 }
 
+function scoreTrendTaste(item, occasion, styleTaste) {
+  const likedTrendIds = styleTaste?.likedTrendIds || []
+  if (!likedTrendIds.length) return 0
+
+  const trendBoost = likedTrendIds.reduce((sum, trendId) => {
+    const trend = TREND_BY_ID[trendId]
+    if (!trend) return sum
+
+    const searchableText = `${item.name} ${item.categoryLabel || ''} ${(item.tags || []).join(' ')}`.toLowerCase()
+    const keywordHit = trend.keywords.some((keyword) => searchableText.includes(keyword.toLowerCase()))
+    if (!keywordHit) return sum
+    return sum + (trend.occasions.includes(occasion) ? 6 : 3)
+  }, 0)
+
+  return trendBoost
+}
+
+function scoreProfileFit(item, profile) {
+  if (!profile) return 0
+
+  const searchableText = `${item.name} ${item.categoryLabel || ''} ${(item.tags || []).join(' ')}`.toLowerCase()
+  let score = 0
+
+  if (profile.fitPreference === 'relaxed' || profile.fitPreference === 'loose') {
+    if (searchableText.includes('slim') || searchableText.includes('tight')) score -= 3
+    if (searchableText.includes('relaxed') || searchableText.includes('oversized')) score += 4
+  }
+
+  if (profile.fitPreference === 'tailored') {
+    if (searchableText.includes('tailored') || searchableText.includes('slim')) score += 3
+  }
+
+  if (profile.hasPotbelly || profile.pregnant) {
+    if (searchableText.includes('slim') || searchableText.includes('skinny')) score -= 6
+    if (searchableText.includes('relaxed') || searchableText.includes('high waist') || searchableText.includes('stretch')) score += 4
+  }
+
+  if (profile.hasDisability) {
+    if (profile.mobilityPreference === 'easy-fastening') {
+      if (searchableText.includes('lace') || searchableText.includes('oxford')) score -= 3
+      if (searchableText.includes('slip-on') || searchableText.includes('zip')) score += 4
+    }
+    if (profile.mobilityPreference === 'seated-friendly') {
+      if (item.type === 'bottom' || item.type === 'shoes') score += 2
+    }
+  }
+
+  return score
+}
+
 function pickBest(items, type, { count = 1, excludeItemIds = [], variationIndex = 0 } = {}) {
   const ranked = [...items]
     .filter(i => i.type === type)
@@ -72,7 +125,15 @@ function pickBest(items, type, { count = 1, excludeItemIds = [], variationIndex 
 }
 
 export const outfitService = {
-  async generateOutfit({ weather, occasion, wardrobe, excludeItemIds = [], variationIndex = 0 }) {
+  async generateOutfit({
+    weather,
+    occasion,
+    wardrobe,
+    userProfile,
+    styleTaste,
+    excludeItemIds = [],
+    variationIndex = 0,
+  }) {
     await delay(500)
     if (!wardrobe || wardrobe.length === 0) {
       return ok({ items: [], reason: 'Add some items to your wardrobe to get outfit suggestions!', meta: { mainItemsCount: 0, accessoryCount: 0 }, vtoImage: null })
@@ -91,7 +152,13 @@ export const outfitService = {
       })
     }
 
-    const scored = cleanWardrobe.map(i => ({ ...i, _score: scoreItem(i, occasion, weather) }))
+    const scored = cleanWardrobe.map(i => ({
+      ...i,
+      _score:
+        scoreItem(i, occasion, weather)
+        + scoreTrendTaste(i, occasion, styleTaste)
+        + scoreProfileFit(i, userProfile),
+    }))
     const pickOptions = { excludeItemIds, variationIndex }
     const tops = pickBest(scored, 'top', pickOptions)
     const bottoms = pickBest(scored, 'bottom', pickOptions)
